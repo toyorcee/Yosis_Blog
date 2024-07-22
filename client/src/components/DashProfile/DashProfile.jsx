@@ -133,6 +133,8 @@ export default function DashProfile() {
     }
   };
 
+  console.log(formData);
+
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
