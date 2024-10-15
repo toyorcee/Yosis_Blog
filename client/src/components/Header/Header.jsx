@@ -45,6 +45,12 @@ export default function Header() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
+
+    // Log when the button is clicked
+    console.log('Button clicked!');
+    console.log('Search term submitted:', searchTerm);
+    console.log('Navigating to:', `/search?${searchQuery}`); 
+
     navigate(`/search?${searchQuery}`);
   };
 
@@ -59,19 +65,24 @@ export default function Header() {
         </span>
         Blog
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex items-center">
         <TextInput
           type="text"
           placeholder="Search..."
-          rightIcon={AiOutlineSearch}
+          // rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <Button
+          type="submit"
+          className=" ml-2 cursor-pointer" 
+          color="gray"
+          pill
+        >
+          <AiOutlineSearch />
+        </Button>
       </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
       <div className="flex gap-2 md:order-2">
         <Button
           className="w-12 h-10 hidden sm:inline"
