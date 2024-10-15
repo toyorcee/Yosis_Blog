@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto ">
-        <h1 className="text-3xl font-bold lg:text-6xl">Welcome to my Blog!</h1>
+        <h1 className="text-3xl font-bold lg:text-6xl">Welcome to Yosi's Blog!</h1>
         <h2 className="text-3xl font-bold lg:text-3xl">
           Explore Tech, Music, Sports & Life
         </h2>
