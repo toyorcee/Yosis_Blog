@@ -34,6 +34,7 @@ export default function Header() {
         console.log(data.message);
       } else {
         dispatch(signoutSuccess());
+        navigate("/sign-in");
       }
     } catch (error) {
       console.log(error.message);
@@ -47,9 +48,9 @@ export default function Header() {
     const searchQuery = urlParams.toString();
 
     // Log when the button is clicked
-    console.log('Button clicked!');
-    console.log('Search term submitted:', searchTerm);
-    console.log('Navigating to:', `/search?${searchQuery}`); 
+    // console.log("Button clicked!");
+    // console.log("Search term submitted:", searchTerm);
+    // console.log("Navigating to:", `/search?${searchQuery}`);
 
     navigate(`/search?${searchQuery}`);
   };
@@ -76,7 +77,7 @@ export default function Header() {
         />
         <Button
           type="submit"
-          className=" ml-2 cursor-pointer" 
+          className=" ml-2 cursor-pointer"
           color="gray"
           pill
         >
@@ -85,7 +86,7 @@ export default function Header() {
       </form>
       <div className="flex gap-2 md:order-2">
         <Button
-          className="w-12 h-10 hidden sm:inline"
+          className="w-12 h-10 sm:inline"
           color="gray"
           pill
           onClick={() => dispatch(toggleTheme())}
@@ -122,13 +123,17 @@ export default function Header() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
+        <Navbar.Link active={path === "/"} as={"div"} className="navlinks">
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
+        <Navbar.Link active={path === "/about"} as={"div"} className="navlinks">
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
+        <Navbar.Link
+          active={path === "/projects"}
+          as={"div"}
+          className="navlinks"
+        >
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
       </Navbar.Collapse>

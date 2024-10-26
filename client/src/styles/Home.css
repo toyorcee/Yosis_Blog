@@ -1,0 +1,38 @@
+@keyframes move-h1 {
+    0% {
+      transform: translateX(-100%); /* Start off-screen to the left */
+      opacity: 0; /* Start invisible */
+    }
+    20% {
+      transform: translateX(0); /* Fully visible */
+      opacity: 1; /* Fully visible */
+    }
+    80% {
+      transform: translateX(0); /* Keep it in place */
+      opacity: 1; /* Fully visible */
+    }
+    100% {
+      transform: translateX(100%); /* Slide out off-screen to the right */
+      opacity: 0; /* Fade out */
+    }
+  }
+  
+  @keyframes move-h2 {
+    0% {
+      transform: translateX(100%); /* Start off-screen to the right */
+      opacity: 0; /* Start invisible */
+    }
+    20% {
+      transform: translateX(0); /* Fully visible */
+      opacity: 1; /* Fully visible */
+    }
+    80% {
+      transform: translateX(0); /* Keep it in place */
+      opacity: 1; /* Fully visible */
+    }
+    100% {
+      transform: translateX(-100%); /* Slide out off-screen to the left */
+      opacity: 0; /* Fade out */
+    }
+  }
+  

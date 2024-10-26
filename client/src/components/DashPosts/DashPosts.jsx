@@ -11,11 +11,17 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
+        console.log("Fetching posts for user:", currentUser?._id); // Log user ID
+        const res = await fetch(`/api/post/getposts?userId=${currentUser?._id}`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`); 
+        }
         const data = await res.json();
+        console.log("Fetched Posts:", data.posts); // Log fetched posts
         if (res.ok) {
           setUserPosts(data.posts);
           if (data.posts.length < 9) {
@@ -23,21 +29,24 @@ export default function DashPosts() {
           }
         }
       } catch (error) {
-        console.log(error.message);
+        console.log("Error fetching posts:", error.message); // Log error
       }
     };
-    if (currentUser.isAdmin) {
+
+    if (currentUser?.isAdmin) {
       fetchPosts();
     }
-  }, [currentUser._id]);
+  }, [currentUser?._id]);
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
+      console.log("Loading more posts from index:", startIndex); // Log startIndex
       const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `/api/post/getposts?userId=${currentUser?._id}&startIndex=${startIndex}`
       );
       const data = await res.json();
+      console.log("Additional Posts:", data.posts); // Log additional posts
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);
         if (data.posts.length < 9) {
@@ -45,53 +54,50 @@ export default function DashPosts() {
         }
       }
     } catch (error) {
-      console.log(error.message);
+      console.log("Error loading more posts:", error.message); // Log error
     }
   };
 
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
+      console.log("Deleting post with ID:", postIdToDelete); // Log post ID
       const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `/api/post/deletepost/${postIdToDelete}/${currentUser?._id}`,
         {
           method: "DELETE",
         }
       );
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message);
+        console.log("Error deleting post:", data.message); // Log delete error
       } else {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== postIdToDelete)
         );
       }
     } catch (error) {
-      console.log(error.message);
+      console.log("Error deleting post:", error.message); // Log error
     }
   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser?.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table e hoverable className="shadow-m">
+          <Table hoverable className="shadow-m">
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Post image</Table.HeadCell>
               <Table.HeadCell>Post title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>
-                <span>Edit</span>
-              </Table.HeadCell>
+              <Table.HeadCell>Edit</Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
-              <Table.Body className="divide-y">
+              <Table.Body className="divide-y" key={post._id}>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>
-                    {new Date(post.updatedAt).toLocaleDateString()}
-                  </Table.Cell>
+                  <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/post/${post.slug}`}>
                       <img
@@ -126,7 +132,7 @@ export default function DashPosts() {
                       className="text-teal-500 hover:underline cursor-pointer"
                       to={`/update-post/${post._id}`}
                     >
-                      <span>Edit</span>
+                      Edit
                     </Link>
                   </Table.Cell>
                 </Table.Row>
@@ -145,12 +151,7 @@ export default function DashPosts() {
       ) : (
         <p>You have no posts yet!</p>
       )}
-      <Modal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        popup
-        size="md"
-      >
+      <Modal show={showModal} onClose={() => setShowModal(false)} popup size="md">
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">

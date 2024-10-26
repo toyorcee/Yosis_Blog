@@ -12,21 +12,29 @@ export default function DashUsers() {
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
 
+  // Fetch Users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`/api/user/getusers`);
+        const res = await fetch(`/api/user/getusers`, {
+          credentials: "include",
+        });
         const data = await res.json();
+
         if (res.ok) {
           setUsers(data.users);
           if (data.users.length < 9) {
             setShowMore(false);
           }
+        } else {
+          throw new Error(data.message || "Failed to fetch users");
         }
       } catch (error) {
-        console.log(error.message);
+        console.error("Fetch Users Error:", error.message);
+        toast.error(`Error fetching users: ${error.message}`);
       }
     };
+
     if (currentUser.isAdmin) {
       fetchUsers();
     }

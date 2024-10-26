@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    premium: { type: Boolean, default: false },
+    googleId: { type: String, default: null }, 
   },
   { timestamps: true }
 );

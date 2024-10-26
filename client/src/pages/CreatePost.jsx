@@ -107,6 +107,20 @@ export default function CreatePost() {
             <option value="realestate">Real Estate</option>
             <option value="football">Football</option>
             <option value="informationtech">Information Technology</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Agriculture">Agriculture</option>
+            <option value="Bankingandfinance">Banking & Finance</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Oilandgas">Oil & Gas</option>
+            <option value="Education">Education</option>
+            <option value="Construction">Construction</option>
+            <option value="Retailandcommerce">Retail & Commerce</option>
+            <option value="Telecommunications">Telecommunications</option>
+            <option value="Transportationandlogistics">
+              Transportation & Logistics
+            </option>
+            <option value="Otherservices">Other Services</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

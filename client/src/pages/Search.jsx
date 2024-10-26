@@ -16,7 +16,6 @@ export default function Search() {
   const [showMore, setShowMore] = useState(false);
 
   const location = useLocation();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +23,13 @@ export default function Search() {
     const searchTermFromUrl = urlParams.get("searchTerm");
     const sortFromUrl = urlParams.get("sort");
     const categoryFromUrl = urlParams.get("category");
+
+    console.log("URL Params:", {
+      searchTermFromUrl,
+      sortFromUrl,
+      categoryFromUrl,
+    });
+
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
@@ -55,13 +61,43 @@ export default function Search() {
     fetchPosts();
   }, [location.search]);
 
+  //   const fetchPosts = async () => {
+  //     setLoading(true);
+  //     const searchQuery = urlParams.toString();
+  //     console.log("Search Query URL:", searchQuery);
+
+  //     const res = await fetch(`/api/post/getposts?${searchQuery}`);
+
+  //     console.log("API Response:", res);
+
+  //     if (!res.ok) {
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     const data = await res.json();
+  //     console.log("Fetched Data:", data);
+
+  //     setPosts(data.posts);
+  //     setLoading(false);
+
+  //     if (data.posts.length === 9) {
+  //       setShowMore(true);
+  //     } else {
+  //       setShowMore(false);
+  //     }
+  //   };
+
+  //   fetchPosts();
+  // }, [location.search]);
+
   const handleChange = (e) => {
     if (e.target.id === "searchTerm") {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
     if (e.target.id === "sort") {
       const order = e.target.value || "desc";
-      setSidebarData({ ...sidebarData, sort: order });
+      setSidebarData({ ...sidebarData, order });
     }
     if (e.target.id === "category") {
       const category = e.target.value || "uncategorized";
@@ -104,7 +140,7 @@ export default function Search() {
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-          <div className="flex   items-center gap-2">
+          <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
               Search Term:
             </label>
@@ -118,7 +154,7 @@ export default function Search() {
           </div>
           <div className="flex items-center gap-2">
             <label className="font-semibold">Sort:</label>
-            <Select onChange={handleChange} value={sidebarData.sort} id="sort">
+            <Select onChange={handleChange} value={sidebarData.order} id="sort">
               <option value="desc">Latest</option>
               <option value="asc">Oldest</option>
             </Select>
@@ -130,10 +166,24 @@ export default function Search() {
               value={sidebarData.category}
               id="category"
             >
-              <option value="uncategorized">Uncategorized</option>
-              <option value="reactjs">React.js</option>
-              <option value="nextjs">Next.js</option>
-              <option value="javascript">JavaScript</option>
+              <option value="uncategorized">Select a category</option>
+              <option value="realestate">Real Estate</option>
+              <option value="football">Football</option>
+              <option value="informationtech">Information Technology</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="fashion">Fashion</option>
+              <option value="agriculture">Agriculture</option>
+              <option value="bankingandfinance">Banking & Finance</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="oilandgas">Oil & Gas</option>
+              <option value="education">Education</option>
+              <option value="construction">Construction</option>
+              <option value="retailandcommerce">Retail & Commerce</option>
+              <option value="telecommunications">Telecommunications</option>
+              <option value="transportationandlogistics">
+                Transportation & Logistics
+              </option>
+              <option value="otherservices">Other Services</option>
             </Select>
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">

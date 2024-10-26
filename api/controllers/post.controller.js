@@ -28,7 +28,9 @@ export const create = async (req, res, next) => {
 
 export const getposts = async (req, res, next) => {
   try {
-    const regex = req.query.searchTerm ? new RegExp(req.query.searchTerm, "i") : null;
+    const regex = req.query.searchTerm
+      ? new RegExp(req.query.searchTerm, "i")
+      : null;
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
@@ -99,6 +101,19 @@ export const updatepost = async (req, res, next) => {
       { new: true }
     );
     res.status(200).json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get premium posts
+export const getPremiumPosts = async (req, res, next) => {
+  try {
+    const posts = await Post.find({ premium: true });
+    res.status(200).json({
+      message: "Premium posts fetched successfully",
+      posts,
+    });
   } catch (error) {
     next(error);
   }
